@@ -4,6 +4,7 @@ library verfiy_forgot_code_view;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:journey/core/get.dart';
+import 'package:journey/global/constants.dart';
 import 'package:journey/views/set_new_password/set_new_password_view.dart';
 import 'package:journey/widgets/dialogbox.dart';
 import 'package:responsive_builder/responsive_builder.dart';

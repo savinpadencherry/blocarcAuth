@@ -179,10 +179,7 @@ class _LoginMobileState extends State<_LoginMobile>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Color.alphaBlend(Color(0xffD99EC9), Colors.orange),
-                    Color.alphaBlend(Colors.pink, Colors.orange),
-                  ],
+                  colors: const [Color(0xff356cf6), Color(0xff356cf6)],
                 ),
               ),
               child: Column(
@@ -220,8 +217,8 @@ class _LoginMobileState extends State<_LoginMobile>
                               : _heightanimation.value.width,
                           decoration: BoxDecoration(
                             color: state is AuthLoading
-                                ? Colors.orange
-                                : Colors.white,
+                                ? Colors.blueAccent
+                                : Color(0xff70aafe),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           child: Form(
@@ -232,7 +229,7 @@ class _LoginMobileState extends State<_LoginMobile>
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  customText('Log In'),
+                                  customText2('Log In'),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -259,11 +256,11 @@ class _LoginMobileState extends State<_LoginMobile>
                                           filled: true,
                                           labelText: 'Email',
                                           labelStyle: TextStyle(
-                                            color: Colors.black,
+                                            color: Color(0xff356cf6),
                                           ),
                                           prefixIcon: const Icon(
                                             Icons.email,
-                                            color: Colors.black,
+                                            color: Color(0xff356cf6),
                                           ),
                                         ),
                                         validator: (String? value) {
@@ -327,11 +324,11 @@ class _LoginMobileState extends State<_LoginMobile>
                                           filled: true,
                                           labelText: 'password',
                                           labelStyle: TextStyle(
-                                            color: Colors.black,
+                                            color: Color(0xff356cf6),
                                           ),
                                           prefixIcon: const Icon(
                                             Icons.lock,
-                                            color: Colors.black,
+                                            color: Color(0xff356cf6),
                                           ),
                                         ),
                                         validator: (String? value) {
@@ -403,7 +400,7 @@ class _LoginMobileState extends State<_LoginMobile>
                                         app<NavigatorService>().buildAndPush(
                                       ForgotPasswordView(),
                                     ),
-                                    child: customText('Forgot Password?'),
+                                    child: customText2('Forgot Password?'),
                                   )
                                 ],
                               ),
@@ -414,7 +411,14 @@ class _LoginMobileState extends State<_LoginMobile>
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
+                  ),
+                  Text(
+                    '------------------- Or Login via --------------------',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -427,13 +431,13 @@ class _LoginMobileState extends State<_LoginMobile>
                               onTap: () => app<NavigatorService>().buildAndPush(
                                     SignupView(),
                                   ),
-                              child: CustomContainer2(
+                              child: CustomContainerIcon(
                                 title: 'Sign Up',
                                 color: Colors.purple,
-                                icon: Icons.create,
+                                icon: FontAwesomeIcons.arrowRightToBracket,
                                 showShadow: false,
                                 height: 50,
-                                width: 100,
+                                width: 50,
                                 textColor: Colors.black,
                                 textSize: 20,
                               )
@@ -464,6 +468,31 @@ class _LoginMobileState extends State<_LoginMobile>
                         ),
                       ),
                       Align(
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<AuthBloc>().add(GoogleSignInEvent());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: CustomContainerIcon(
+                              title: state is GoogleSignInLoadingState
+                                  ? 'Signing In...'
+                                  : 'Sign in with Google',
+                              icon: state is GoogleSignInLoadingState
+                                  ? FontAwesomeIcons.circle
+                                  : FontAwesomeIcons.google,
+                              height: 50,
+                              width: 50,
+                              showShadow: false,
+                              textSize: 20,
+                              color: Colors.orange,
+                              textColor: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0, right: 20),
@@ -471,14 +500,14 @@ class _LoginMobileState extends State<_LoginMobile>
                               onTap: () => app<NavigatorService>().buildAndPush(
                                     PhoneAuthView(),
                                   ),
-                              child: CustomContainer2(
+                              child: CustomContainerIcon(
                                 title: 'Sign in with Phone',
                                 color: Colors.green,
                                 textColor: Colors.black,
                                 icon: Icons.phone,
                                 showShadow: false,
                                 height: 50,
-                                width: 100,
+                                width: 50,
                                 textSize: 20,
                               )
                               // RichText(
@@ -512,25 +541,6 @@ class _LoginMobileState extends State<_LoginMobile>
                   ),
                   SizedBox(
                     height: 20,
-                  ),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<AuthBloc>().add(AuthGoogleSignInEvent());
-                      },
-                      child: CustomContainer2(
-                        title: state is GoogleSignInLoadingState
-                            ? 'Signing In...'
-                            : 'Sign in with Google',
-                        icon: FontAwesomeIcons.google,
-                        height: 40,
-                        width: 150,
-                        showShadow: false,
-                        textSize: 20,
-                        color: Colors.orange,
-                        textColor: Colors.black,
-                      ),
-                    ),
                   ),
                 ],
               ),

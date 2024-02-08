@@ -75,9 +75,11 @@ class StorageRepository with LogMixin {
       String? userNameL,
       String? email,
       required String documentId}) async {
+    warningLog(
+        'checking file ${xFile?.name} , path to the file ${xFile?.path}');
     if (xFile == null) {
       try {
-        warningLog('$userNameL');
+        warningLog('if the file is not there $userNameL');
         await app<AuthRepository>().patchUserNameAndPhotoUrl(
             userName: userNameL,
             photoUrl: '',
@@ -90,26 +92,27 @@ class StorageRepository with LogMixin {
           message: e.toString(),
         );
       }
-    }
-    try {
-      warningLog('$userNameL');
-      final File? compressedFile =
-          await compressMedia(xfile: xFile, userID: userID);
-      final String? profileImageUrl =
-          await uploadMedia(file: compressedFile, userID: userID);
-      await app<AuthRepository>().patchUserNameAndPhotoUrl(
-        userName: userNameL,
-        photoUrl: profileImageUrl,
-        emailId: email,
-        documentID: documentId,
-        userId: userID,
-      );
-      return profileImageUrl;
-    } catch (e) {
-      errorLog(e.toString());
-      throw ErrorUploadingImageAndPatchingData(
-        message: e.toString(),
-      );
+    } else {
+      try {
+        warningLog('$userNameL');
+        final File? compressedFile =
+            await compressMedia(xfile: xFile, userID: userID);
+        final String? profileImageUrl =
+            await uploadMedia(file: compressedFile, userID: userID);
+        await app<AuthRepository>().patchUserNameAndPhotoUrl(
+          userName: userNameL,
+          photoUrl: profileImageUrl,
+          emailId: email,
+          documentID: documentId,
+          userId: userID,
+        );
+        return profileImageUrl;
+      } catch (e) {
+        errorLog(e.toString());
+        throw ErrorUploadingImageAndPatchingData(
+          message: e.toString(),
+        );
+      }
     }
   }
 }

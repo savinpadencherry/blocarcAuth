@@ -7,10 +7,8 @@ import 'package:journey/core/blocs/auth/auth_bloc.dart';
 import 'package:journey/core/blocs/data/data_bloc.dart';
 import 'package:journey/core/repository/auth_repository.dart';
 import 'package:journey/core/repository/storage_repository.dart';
-import 'package:journey/theme/theme.dart';
 import 'package:journey/views/home/home_view.dart';
 import 'package:journey/views/login/login_view.dart';
-import 'package:journey/views/onboarding/onboarding_view.dart';
 import 'package:journey/views/signup/signup_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/get.dart';
@@ -67,19 +65,13 @@ class MainApplication extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: app<NavigatorService>().navigatorKey,
           theme: ThemeData(
-            fontFamily: GoogleFonts.bubblegumSans(
-                    foreground: Paint()..shader = linearGradient)
-                .fontFamily,
+            textTheme: GoogleFonts.architectsDaughterTextTheme(),
             colorScheme: const ColorScheme.light(
               primary: Color(0xffDD5E89),
               secondary: Color(0xffF7BB97),
             ),
           ),
-          home: const OnboardingView(
-            email: 'Something@gmail.com',
-            userId: 'sdfdifhdifjhdjf',
-            documentId: 'asdiffihdfj',
-          ),
+          home: const LoginView(),
           routes: {
             '/SignUp': (context) => const SignupView(),
             '/SignIn': (context) => const LoginView(),

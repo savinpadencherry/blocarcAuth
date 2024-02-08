@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:journey/core/blocs/auth/auth_bloc.dart';
 import 'package:journey/core/get.dart';
 import 'package:journey/core/logger.dart';
+import 'package:journey/global/constants.dart';
 import 'package:journey/theme/theme.dart';
 import 'package:journey/views/send_reset_password/send_reset_password_view.dart';
 import 'package:journey/views/verfiy_forgot_code/verfiy_forgot_code_view.dart';

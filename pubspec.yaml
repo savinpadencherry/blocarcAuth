@@ -54,16 +54,27 @@ assets:
 # "family" key with the font family name, and a "fonts" key with a
 # list giving the asset and other descriptors for the font. For
 # example:
-fonts:
-  - family: Ultra
-    fonts:
-      - asset: assets/Ultra-Regular.ttf
-        weight: 500
+ fonts:
+   - family: Ultra
+     fonts:
+       - asset: assets/Ultra-Regular.ttf
+         weight: 500
       
-  - family: BubblegumSans
-    fonts:
-      - asset: assets/BubblegumSans-Regular.ttf
-        weight: 700
+   - family: BubblegumSans
+     fonts:
+       - asset: assets/BubblegumSans-Regular.ttf
+         weight: 700
+
+   - family: IndieFlower
+     fonts:
+       - asset: assets/IndieFlower-Regular.ttf
+         weight: 700  
+
+   - family: ArchitectsDaughter
+     fonts:
+       - asset: assets/ArchitectsDaughter-Regular.ttf
+         weight: 700      
+            
 #
 # For details regarding fonts from package dependencies,
 # see https://flutter.dev/custom-fonts/#from-packages

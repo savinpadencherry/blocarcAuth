@@ -165,6 +165,8 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
   }
 
   void _showVerifyPhoneCodeSuccess({String? message, AuthSuccess? state}) {
+    warningLog(
+        'new user ${state!.isNewUser},onboarding ${state.showOnBoarding} ,email ${state.email} , userId ${state.userId}, document id ${RepositoryProvider.of<AuthRepository>(context).documentId} ');
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -192,11 +194,11 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
               ),
               InkWell(
                 onTap: () {
-                  state!.userCredential!.additionalUserInfo!.isNewUser
+                  state.showOnBoarding!
                       ? app<NavigatorService>().buildAndPush(
                           OnboardingView(
-                            email: '${state.userCredential!.user!.email}',
-                            userId: state.userCredential!.user!.uid,
+                            email: '${state.email}',
+                            userId: state.userId!,
                             documentId:
                                 RepositoryProvider.of<AuthRepository>(context)
                                     .documentId,
@@ -289,9 +291,9 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: const [
-                    Color(0xffD99EC9),
-                    Colors.pink,
+                  colors: [
+                    ConstantVars.maintheme,
+                    ConstantVars.maintheme,
                   ],
                 ),
               ),
@@ -323,7 +325,7 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
                           borderRadius: BorderRadius.circular(15.0),
                           color: state is VerifyingCodeState
                               ? Colors.white60
-                              : Colors.white,
+                              : ConstantVars.cardColorTheme,
                         ),
                         child: Form(
                           key: _signUpFormKey,
@@ -334,7 +336,7 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                customText(
+                                customText2(
                                   'Verify Code',
                                 ),
                                 const SizedBox(
@@ -368,10 +370,14 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
                                               BorderRadius.circular(15.0),
                                         ),
                                         filled: true,
+                                        fillColor: Colors.white,
                                         labelText: 'Code',
-                                        prefixIcon: const Icon(
+                                        labelStyle: TextStyle(
+                                          color: ConstantVars.maintheme,
+                                        ),
+                                        prefixIcon: Icon(
                                           Icons.email,
-                                          color: Colors.black,
+                                          color: ConstantVars.maintheme,
                                         ),
                                       ),
                                       // validator: (String? value) {

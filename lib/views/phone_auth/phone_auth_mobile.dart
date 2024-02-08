@@ -137,10 +137,7 @@ class _PhoneAuthMobileState extends State<_PhoneAuthMobile>
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: const [
-                  Color(0xffD99EC9),
-                  Colors.pink,
-                ],
+                colors: [ConstantVars.maintheme, ConstantVars.maintheme],
               ),
             ),
             child: Center(
@@ -153,7 +150,9 @@ class _PhoneAuthMobileState extends State<_PhoneAuthMobile>
                     state is AuthLoading ? 300 : _heightAnimation?.value.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: state is AuthLoading ? Colors.white54 : Colors.white,
+                  color: state is AuthLoading
+                      ? Colors.white54
+                      : ConstantVars.cardColorTheme,
                 ),
                 child: Form(
                   key: _signUpFormKey,
@@ -164,7 +163,7 @@ class _PhoneAuthMobileState extends State<_PhoneAuthMobile>
                         const SizedBox(
                           height: 20,
                         ),
-                        customText('Sign Up'),
+                        customText2('Sign Up'),
                         const SizedBox(
                           height: 20,
                         ),
@@ -176,6 +175,8 @@ class _PhoneAuthMobileState extends State<_PhoneAuthMobile>
                             child: IntlPhoneField(
                               decoration: const InputDecoration(
                                 labelText: 'Phone Number',
+                                filled: true,
+                                fillColor: Colors.white,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(),
                                 ),

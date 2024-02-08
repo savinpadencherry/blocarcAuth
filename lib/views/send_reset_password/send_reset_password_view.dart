@@ -5,6 +5,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:journey/core/get.dart';
 import 'package:journey/core/services/navigator_service.dart';
+import 'package:journey/global/constants.dart';
 import 'package:journey/theme/theme.dart';
 import 'package:journey/views/login/login_view.dart';
 import 'package:journey/widgets/custom_container.dart';

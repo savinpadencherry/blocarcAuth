@@ -188,6 +188,7 @@ class _VerfiyForgotCodeMobileState extends State<_VerfiyForgotCodeMobile>
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               filled: true,
+                              fillColor: Colors.white,
                               labelText: 'Code',
                               prefixIcon: const Icon(
                                 Icons.code,
@@ -206,6 +207,7 @@ class _VerfiyForgotCodeMobileState extends State<_VerfiyForgotCodeMobile>
                           duration: const Duration(milliseconds: 600),
                           curve: Curves.bounceInOut,
                           height: 45,
+                          color: ConstantVars.cardColorTheme,
                           width: 160,
                           child: GestureDetector(
                             onTap: submit,

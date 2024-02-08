@@ -22,10 +22,7 @@ class _SendResetPasswordMobileState extends State<_SendResetPasswordMobile> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color.alphaBlend(const Color(0xffD99EC9), Colors.orange),
-              Color.alphaBlend(Colors.pink, Colors.orange),
-            ],
+            colors: [ConstantVars.maintheme, ConstantVars.maintheme],
           ),
         ),
         child: Column(
@@ -54,7 +51,7 @@ class _SendResetPasswordMobileState extends State<_SendResetPasswordMobile> {
               height: 300,
               width: 300,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: ConstantVars.cardColorTheme,
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Column(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:journey/core/logger.dart';
 import 'package:journey/core/services/navigator_service.dart';
+import 'package:journey/global/constants.dart';
 import 'package:journey/theme/theme.dart';
 import 'package:journey/views/verify_code/verify_code_view.dart';
 import 'package:journey/widgets/custom_container.dart';

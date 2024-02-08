@@ -27,17 +27,14 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       ),
       contentPadding: const EdgeInsets.only(top: 20),
       content: SizedBox(
-        height: 100,
+        height: 120,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
             Center(
               child: Text(widget.message!),
-            ),
-            const SizedBox(
-              height: 22,
             ),
             InkWell(
               onTap: () => app<NavigatorService>().pop(),

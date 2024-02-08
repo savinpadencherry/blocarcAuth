@@ -153,9 +153,9 @@ class _SignupMobileState extends State<_SignupMobile>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: const [
-                    Color(0xffD99EC9),
-                    Colors.pink,
+                  colors: [
+                    ConstantVars.maintheme,
+                    ConstantVars.maintheme,
                   ],
                 ),
               ),
@@ -193,8 +193,8 @@ class _SignupMobileState extends State<_SignupMobile>
                               : _heightAnimation?.value.width,
                           decoration: BoxDecoration(
                             color: state is AuthLoading
-                                ? Colors.orange
-                                : Colors.white,
+                                ? ConstantVars.maintheme
+                                : ConstantVars.cardColorTheme,
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           child: Form(
@@ -205,7 +205,7 @@ class _SignupMobileState extends State<_SignupMobile>
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  customText('Sign Up'),
+                                  customText2('Sign Up'),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -219,6 +219,7 @@ class _SignupMobileState extends State<_SignupMobile>
                                         keyboardType:
                                             TextInputType.emailAddress,
                                         decoration: InputDecoration(
+                                          fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(
                                               20.0,
@@ -226,9 +227,12 @@ class _SignupMobileState extends State<_SignupMobile>
                                           ),
                                           filled: true,
                                           labelText: 'Email',
-                                          prefixIcon: const Icon(
+                                          prefixIcon: Icon(
                                             Icons.email,
-                                            color: Colors.black,
+                                            color: ConstantVars.maintheme,
+                                          ),
+                                          labelStyle: TextStyle(
+                                            color: ConstantVars.maintheme,
                                           ),
                                         ),
                                         validator: (String? value) {
@@ -283,10 +287,14 @@ class _SignupMobileState extends State<_SignupMobile>
                                               borderRadius:
                                                   BorderRadius.circular(15.0)),
                                           filled: true,
+                                          fillColor: Colors.white,
                                           labelText: 'password',
-                                          prefixIcon: const Icon(
+                                          labelStyle: TextStyle(
+                                            color: ConstantVars.maintheme,
+                                          ),
+                                          prefixIcon: Icon(
                                             Icons.lock,
-                                            color: Colors.black,
+                                            color: ConstantVars.maintheme,
                                           ),
                                         ),
                                         validator: (String? value) {
@@ -324,10 +332,14 @@ class _SignupMobileState extends State<_SignupMobile>
                                                 BorderRadius.circular(15.0),
                                           ),
                                           filled: true,
+                                          fillColor: Colors.white,
                                           labelText: 'Confirm password',
-                                          prefixIcon: const Icon(
+                                          labelStyle: TextStyle(
+                                            color: ConstantVars.maintheme,
+                                          ),
+                                          prefixIcon: Icon(
                                             Icons.lock,
-                                            color: Colors.black,
+                                            color: ConstantVars.maintheme,
                                           ),
                                         ),
                                         validator: (String? value) {
@@ -404,6 +416,13 @@ class _SignupMobileState extends State<_SignupMobile>
                   SizedBox(
                     height: 15,
                   ),
+                  Text(
+                    '------------------- Or --------------------',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -415,13 +434,13 @@ class _SignupMobileState extends State<_SignupMobile>
                               onTap: () => app<NavigatorService>().buildAndPush(
                                     LoginView(),
                                   ),
-                              child: CustomContainer2(
+                              child: CustomContainerIcon(
                                 title: 'Log In',
                                 color: Colors.purple,
-                                icon: Icons.create,
+                                icon: Icons.login_sharp,
                                 showShadow: false,
                                 height: 50,
-                                width: 100,
+                                width: 50,
                                 textColor: Colors.black,
                                 textSize: 20,
                               )
@@ -459,14 +478,14 @@ class _SignupMobileState extends State<_SignupMobile>
                               onTap: () => app<NavigatorService>().buildAndPush(
                                     PhoneAuthView(),
                                   ),
-                              child: CustomContainer2(
+                              child: CustomContainerIcon(
                                 title: 'Sign in with Phone',
                                 color: Colors.green,
                                 textColor: Colors.black,
                                 icon: Icons.phone,
                                 showShadow: false,
                                 height: 50,
-                                width: 100,
+                                width: 50,
                                 textSize: 20,
                               )
                               // RichText(

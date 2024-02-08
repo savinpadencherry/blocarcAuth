@@ -89,7 +89,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
         (DataUploadLoading()),
       );
       try {
-        warningLog(event.userId);
+        warningLog(
+            'user Id ${event.userId},file ${event.file}, documentId  ${event.documentId}');
         final imageUrl =
             await storageRepository.entireUploadMediaFlowAndUpdatingUserDetails(
                 xFile: event.file,
@@ -103,6 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
             username: event.username,
             userId: event.userId,
             email: event.email,
+            documentID: event.documentId,
             file: imageUrl,
             onBoardingCompleted: true,
           ),
@@ -182,7 +184,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
         emit(
           AuthSuccess(
             isNewUser: userCredential.additionalUserInfo!.isNewUser,
-            userCredential: userCredential,
+            email: userCredential.user?.phoneNumber,
+            userId: userCredential.user?.uid,
+            showOnBoarding: userCredential.additionalUserInfo?.isNewUser,
           ),
         );
       } on PhoneAuthFailure catch (e) {
@@ -307,6 +311,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
           ResetPasswordErrorState(
             message: e.toString(),
           ),
+        );
+      }
+    });
+
+    on<GoogleSignInEvent>((event, emit) async {
+      warningLog('Google sign in');
+      emit(GoogleSignInLoadingState());
+      try {
+        final UserModel? googleSignInAccount =
+            await authRepository.completeGoogleSignInAndDbEntry();
+        emit(
+          AuthSuccess(
+            username: googleSignInAccount?.username,
+            userId: googleSignInAccount?.userId,
+            documentID: googleSignInAccount?.documentId,
+            isNewUser: googleSignInAccount?.showOnBoarding,
+          ),
+        );
+      } on GoogleSignInErrorState catch (e) {
+        emit(
+          GoogleSignInErrorState(message: e.message),
         );
       }
     });

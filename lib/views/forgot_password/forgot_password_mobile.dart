@@ -75,13 +75,13 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
           );
         }
         if (state is NewForgotPasswordErrorState) {
-          if (state.message.toString().contains('no user record') == true) {
-            _showDialog(message: 'No user record');
-            context.read<AuthBloc>().add(
-                  ResetAuthEvent(),
-                );
-          }
-          _showDialog(message: state.message);
+          // if (state.message.toString().contains('no user record') == true) {
+          //   _showDialog(message: 'No user record');
+          //   context.read<AuthBloc>().add(
+          //         ResetAuthEvent(),
+          //       );
+          // }
+          _showDialog(message: "No user record found");
           context.read<AuthBloc>().add(ResetAuthEvent());
         }
       },
@@ -95,8 +95,8 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.alphaBlend(const Color(0xffD99EC9), Colors.orange),
-                  Color.alphaBlend(Colors.pink, Colors.orange),
+                  ConstantVars.maintheme,
+                  ConstantVars.maintheme,
                 ],
               ),
             ),
@@ -126,7 +126,7 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
                   height: 250,
                   width: 300,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ConstantVars.cardColorTheme,
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Form(
@@ -138,7 +138,7 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
                             height: 10,
                           ),
                           Center(
-                            child: customText('Forgot password'),
+                            child: customText2('Forgot password'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -180,10 +180,14 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
                                   filled: true,
+                                  fillColor: Colors.white,
                                   labelText: 'Email',
-                                  prefixIcon: const Icon(
+                                  prefixIcon: Icon(
                                     Icons.email,
-                                    color: Colors.black,
+                                    color: ConstantVars.maintheme,
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: ConstantVars.maintheme,
                                   ),
                                 ),
                               ),
