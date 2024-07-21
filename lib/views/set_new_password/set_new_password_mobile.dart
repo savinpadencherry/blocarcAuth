@@ -137,14 +137,10 @@ class _SetNewPasswordMobileState extends State<_SetNewPasswordMobile>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-<<<<<<< HEAD
               colors: [
                 ConstantVars.maintheme,
                 ConstantVars.secondaryTheme,
               ],
-=======
-              colors: [ConstantVars.maintheme, ConstantVars.maintheme],
->>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
             ),
           ),
           child: Column(

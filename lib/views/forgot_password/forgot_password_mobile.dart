@@ -96,11 +96,7 @@ class _ForgotPasswordMobileState extends State<_ForgotPasswordMobile>
                 end: Alignment.bottomCenter,
                 colors: [
                   ConstantVars.maintheme,
-<<<<<<< HEAD
                   ConstantVars.secondaryTheme,
-=======
-                  ConstantVars.maintheme,
->>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
                 ],
               ),
             ),

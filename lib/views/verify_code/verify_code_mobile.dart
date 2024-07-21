@@ -191,23 +191,12 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
               ),
               InkWell(
                 onTap: () {
-<<<<<<< HEAD
                   state!.isNewUser!
                       ? app<NavigatorService>().buildAndPush(
                           HomeView(
                             userId: state.userId,
                             documentId: state.documentID,
                             userOrPhone: state.email,
-=======
-                  state.showOnBoarding!
-                      ? app<NavigatorService>().buildAndPush(
-                          OnboardingView(
-                            email: '${state.email}',
-                            userId: state.userId!,
-                            documentId:
-                                RepositoryProvider.of<AuthRepository>(context)
-                                    .documentId,
->>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
                           ),
                           // OnboardingView(
                           //   email: '${state.userCredential!.user!.email}',
