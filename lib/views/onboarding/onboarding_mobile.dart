@@ -106,7 +106,7 @@ class _OnboardingMobileState extends State<_OnboardingMobile>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        warningLog('$state');
+        // warningLog('$state');
         // if (state is DataLoadingAuth) {
         //   Future.delayed(Duration(seconds: 10), () {
         //     app<NavigatorService>().buildAndPush(
@@ -117,7 +117,11 @@ class _OnboardingMobileState extends State<_OnboardingMobile>
 
         if (state is AuthSuccess) {
           if (state.onBoardingCompleted == true) {
-            app<NavigatorService>().buildAndPush(HomeView());
+            app<NavigatorService>().buildAndPush(HomeView(
+              userId: state.userId,
+              documentId: state.documentID,
+              userOrPhone: state.email,
+            ));
           }
         }
         if (state is ErrorFetchingUserData) {

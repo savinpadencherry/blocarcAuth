@@ -7,13 +7,13 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:journey/core/blocs/auth/auth_bloc.dart';
-import 'package:journey/core/contants.dart';
-import 'package:journey/core/logger.dart';
-// import 'package:journey/core/models/customerror.dart';
-import 'package:journey/core/models/httpexception.dart';
-import 'package:journey/core/models/user_model.dart';
-import 'package:journey/core/services/httpservice.dart';
+import 'package:fhirpat/core/blocs/auth/auth_bloc.dart';
+import 'package:fhirpat/core/contants.dart';
+import 'package:fhirpat/core/logger.dart';
+// import 'package:fhirpat/core/models/customerror.dart';
+import 'package:fhirpat/core/models/httpexception.dart';
+import 'package:fhirpat/core/models/user_model.dart';
+import 'package:fhirpat/core/services/httpservice.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -93,7 +93,7 @@ class AuthRepository with LogMixin {
   Future<UserModel> signUpwithEmailAndPassword(
       {required String password, required String email}) async {
     final url = Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAQeWJnestvLmjU2U6RqFTGG76dNfyEcZ4');
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC2ExexO5QaBBot86Aidvw9c5_2GxCMBrI');
     try {
       final response = await http.post(
         url,
@@ -123,6 +123,9 @@ class AuthRepository with LogMixin {
         phoneNumber: '',
         password: password,
       );
+      if (documentId.contains('denied')) {
+        throw const SignUpFailure(message: 'Permission denied');
+      }
       UserModel user = UserModel(
         email: email,
         username: '',
@@ -150,7 +153,7 @@ class AuthRepository with LogMixin {
     required String? password,
   }) async {
     final url = Uri.parse(
-        'https://story-c0de2-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json');
+        'https://fhirov-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json');
     try {
       final response = await http.post(
         url,
@@ -165,11 +168,12 @@ class AuthRepository with LogMixin {
           'password': password,
         }),
       );
-      final responseData = json.decode(response.body.toString()) as Map;
       warningLog(
-          'the response data ${responseData.values.first} ${responseData.keys}');
+          'pushin details to db ${response.statusCode} and data ${response.body}');
+      final responseData = json.decode(response.body) as Map;
+      warningLog('the response data ${responseData} ${responseData.keys}');
       _documentId = responseData.values.first;
-      warningLog(_documentId);
+      warningLog('checking for document Id $_documentId');
       return _documentId;
     } catch (e) {
       errorLog(e.toString());
@@ -179,10 +183,10 @@ class AuthRepository with LogMixin {
     }
   }
 
-  Future<String?> logInWithUserCredential(
+  Future<UserModel> logInWithUserCredential(
       {required String email, required String password}) async {
     var url = Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAQeWJnestvLmjU2U6RqFTGG76dNfyEcZ4');
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC2ExexO5QaBBot86Aidvw9c5_2GxCMBrI');
     try {
       final response = await http.post(
         url,
@@ -203,7 +207,8 @@ class AuthRepository with LogMixin {
       _userId = responseData['localId'];
       _refreshToken = responseData['refreshToken'];
       _email = responseData['email'];
-      return _userId;
+      UserModel user = await fetchUserDetails(userId: _userId!);
+      return user;
     } catch (e) {
       // throw LogInFailure(message: e.toString(), email: email);
       _showErrorDialog = true;
@@ -214,7 +219,7 @@ class AuthRepository with LogMixin {
 
   Future<String?> fetchUserDetailsE(String email) async {
     var url = Uri.parse(
-        'https://story-c0de2-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json?orderBy="email"&equalTo="${email}"');
+        'https://fhirov-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json?orderBy="email"&equalTo="${email}"');
     try {
       warningLog('Checking for url $url');
       final response = await http.get(url);
@@ -298,7 +303,7 @@ class AuthRepository with LogMixin {
       required final String? userId,
       required final String documentID}) async {
     var url = Uri.parse(
-        'https://story-c0de2-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails/${documentID}.json');
+        'https://fhirov-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails/${documentID}.json');
     warningLog('$userName');
     try {
       final response = await http.patch(
@@ -322,7 +327,7 @@ class AuthRepository with LogMixin {
 
   Future<UserModel> fetchUserDetails({required String userId}) async {
     var url = Uri.parse(
-        'https://story-c0de2-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json?orderBy="userId"&equalTo="${userId}"');
+        'https://fhirov-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails.json?orderBy="userId"&equalTo="${userId}"');
     try {
       final response = await http.get(url);
       final responseData = json.decode(response.body) as Map<dynamic, dynamic>;
@@ -403,7 +408,7 @@ class AuthRepository with LogMixin {
 
   setFinalNewPassword({required final String password}) async {
     final url = Uri.parse(
-        'https://story-c0de2-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails/${documentId}.json');
+        'https://fhirov-default-rtdb.asia-southeast1.firebasedatabase.app/userDetails/${documentId}.json');
     try {
       final response = await http.patch(
         url,
@@ -492,7 +497,7 @@ class AuthRepository with LogMixin {
     }
   }
 
-  Future<UserCredential> signInwithphoneCredentials(
+  Future<UserModel> signInwithphoneCredentials(
       PhoneAuthCredential phoneAuthCredential) async {
     try {
       final authCredential =
@@ -502,6 +507,7 @@ class AuthRepository with LogMixin {
       warningLog(
           'checking if the user is new or not? ${authCredential.additionalUserInfo?.isNewUser}');
       warningLog('${authCredential}');
+
       if (authCredential.additionalUserInfo?.isNewUser == true) {
         warningLog('${authCredential.user!.phoneNumber}');
         final String newToken = const Uuid().v4();
@@ -515,16 +521,19 @@ class AuthRepository with LogMixin {
         _userId = authCredential.user!.uid;
         _documentId = documentId;
         UserModel user = UserModel(
-          userId: _userId,
-          documentId: _documentId,
-          phoneNumber: authCredential.user?.phoneNumber,
-          token: newToken,
-        );
+            userId: _userId,
+            documentId: _documentId,
+            phoneNumber: authCredential.user?.phoneNumber,
+            token: newToken,
+            showOnBoarding: authCredential.additionalUserInfo?.isNewUser,
+            email: authCredential.user?.phoneNumber);
         warningLog('$user');
-        return authCredential;
+        return user;
       } else {
-        _userId = authCredential.user!.uid;
-        return authCredential;
+        UserModel user =
+            await fetchUserDetails(userId: authCredential.user!.uid);
+
+        return user;
       }
     } on FirebaseAuthException catch (e) {
       debugLog('${e.message}, ${e.credential}, ${e.code}');

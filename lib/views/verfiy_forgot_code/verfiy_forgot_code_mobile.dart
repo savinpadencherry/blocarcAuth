@@ -141,7 +141,7 @@ class _VerfiyForgotCodeMobileState extends State<_VerfiyForgotCodeMobile>
             AnimatedTextKit(
               animatedTexts: [
                 WavyAnimatedText(
-                  'Journey',
+                  'fhirpat',
                   speed: const Duration(milliseconds: 350),
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.normal,

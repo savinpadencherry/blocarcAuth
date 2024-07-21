@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "journey",
+            "name": "fhirpat",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "journey (profile mode)",
+            "name": "fhirpat (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "journey (release mode)",
+            "name": "fhirpat (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

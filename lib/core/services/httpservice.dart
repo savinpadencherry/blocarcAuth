@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:journey/core/logger.dart';
+import 'package:fhirpat/core/logger.dart';
 
 class HttpService with LogMixin {
   Future<http.Response> makeGetRequest({

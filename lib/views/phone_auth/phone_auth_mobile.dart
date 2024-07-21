@@ -127,118 +127,229 @@ class _PhoneAuthMobileState extends State<_PhoneAuthMobile>
           _showErrorOnPhoneSignUp(httpException: state.message);
         }
         if (state is CodeSentToPhone) {
-          app<NavigatorService>().buildAndPush(VerifyCodeView());
+          if (state.statename == 'CodeSentToPhone') {
+            app<NavigatorService>().buildAndPush(VerifyCodeView());
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Get out of my App you freak'),
+              ),
+            );
+            app<NavigatorService>().buildAndPush(
+              LoginView(),
+            );
+          }
+          context.read<AuthBloc>().add(
+                ResetStateEvent(),
+              );
         }
       },
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: const [
-                  Color(0xffD99EC9),
-                  Colors.pink,
-                ],
+                colors: const [Color(0xff356cf6), Color(0xff356cf6)],
               ),
             ),
-            child: Center(
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
-                curve: Curves.easeIn,
-                height:
-                    state is AuthLoading ? 300 : _heightAnimation?.value.height,
-                width:
-                    state is AuthLoading ? 300 : _heightAnimation?.value.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: state is AuthLoading ? Colors.white54 : Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedTextKit(
+                  animatedTexts: [
+                    WavyAnimatedText(
+                      'FhirPat',
+                      speed: Duration(milliseconds: 350),
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 40,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                child: Form(
-                  key: _signUpFormKey,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        customText('Sign Up'),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 8.0),
-                          child: SlideTransition(
-                            position: _slideAnimation,
-                            child: IntlPhoneField(
-                              decoration: const InputDecoration(
-                                labelText: 'Phone Number',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(),
-                                ),
-                              ),
-                              initialCountryCode: 'IN',
-                              onChanged: (phone) {
-                                log(phone.completeNumber);
-                                phoneNumber = phone.completeNumber;
-                              },
-                            ),
-                            // child: TextFormField(
-                            //   autocorrect: false,
-                            //   keyboardType: TextInputType.phone,
-                            //   maxLength: 10,
-                            //   decoration: InputDecoration(
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(15.0),
-                            //     ),
-                            //     filled: true,
-                            //     labelText: 'Phone Number',
-                            //     prefixIcon: const Icon(
-                            //       Icons.email,
-                            //       color: Colors.black,
-                            //     ),
-                            //   ),
-                            //   validator: (String? value) {
-                            //     if (value == null || value.trim().isEmpty) {
-                            //       return 'Must Contain a PhoneNumber';
-                            //     }
-                            //     if (value.length < 10 || value.length > 10) {
-                            //       return 'Length of phone number invalid';
-                            //     }
-                            //     return null;
-                            //   },
-                            //   onSaved: (String? value) {
-                            //     phoneNumber = '+91value';
-                            //   },
-                            // ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: submit,
-                          child: CustomContainer(
-                            title: state is AuthLoading
-                                ? 'Sending Code'
-                                : 'Send Code',
-                            icon: Icons.phone,
-                            height: 50,
-                            width: 140,
-                            showShadow: false,
-                            textSize: 20,
-                            color: Colors.green,
-                            textColor: Colors.white,
-                          ),
-                        )
-                      ],
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: AssetImage('assets/Fhir.jpg'),
                     ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeIn,
+                    height: state is AuthLoading
+                        ? 300
+                        : _heightAnimation?.value.height,
+                    width: state is AuthLoading
+                        ? 300
+                        : _heightAnimation?.value.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: state is AuthLoading
+                          ? Colors.white54
+                          : ConstantVars.cardColorTheme,
+                    ),
+                    child: Form(
+                      key: _signUpFormKey,
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            customText2('Sign Up'),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 8.0),
+                              child: SlideTransition(
+                                position: _slideAnimation,
+                                child: IntlPhoneField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Phone Number',
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                    ),
+                                  ),
+                                  initialCountryCode: 'IN',
+                                  onChanged: (phone) {
+                                    log(phone.completeNumber);
+                                    phoneNumber = phone.completeNumber;
+                                  },
+                                ),
+                                // child: TextFormField(
+                                //   autocorrect: false,
+                                //   keyboardType: TextInputType.phone,
+                                //   maxLength: 10,
+                                //   decoration: InputDecoration(
+                                //     border: OutlineInputBorder(
+                                //       borderRadius: BorderRadius.circular(15.0),
+                                //     ),
+                                //     filled: true,
+                                //     labelText: 'Phone Number',
+                                //     prefixIcon: const Icon(
+                                //       Icons.email,
+                                //       color: Colors.black,
+                                //     ),
+                                //   ),
+                                //   validator: (String? value) {
+                                //     if (value == null || value.trim().isEmpty) {
+                                //       return 'Must Contain a PhoneNumber';
+                                //     }
+                                //     if (value.length < 10 || value.length > 10) {
+                                //       return 'Length of phone number invalid';
+                                //     }
+                                //     return null;
+                                //   },
+                                //   onSaved: (String? value) {
+                                //     phoneNumber = '+91value';
+                                //   },
+                                // ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                              onTap: submit,
+                              child: CustomContainer(
+                                title: state is AuthLoading
+                                    ? 'Sending Code'
+                                    : 'Send Code',
+                                icon: Icons.phone,
+                                height: 50,
+                                width: 140,
+                                showShadow: false,
+                                textSize: 20,
+                                color: Colors.green,
+                                textColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  '------------------- Or --------------------',
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: GestureDetector(
+                            onTap: () => app<NavigatorService>().buildAndPush(
+                                  LoginView(),
+                                ),
+                            child: CustomContainerIcon(
+                              title: 'Log In',
+                              color: Colors.purple,
+                              icon: Icons.login_sharp,
+                              showShadow: false,
+                              height: 50,
+                              width: 50,
+                              textColor: Colors.black,
+                              textSize: 20,
+                            )
+                            // RichText(
+                            //   text: TextSpan(
+                            //     text: 'Log in via phone Number ',
+                            //     style: const TextStyle(
+                            //       fontWeight: FontWeight.bold,
+                            //       color: Colors.black,
+                            //       fontSize: 15,
+                            //     ),
+                            //     children: [
+                            //       TextSpan(
+                            //         text: 'Click here',
+                            //         style: TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           color: Theme.of(context)
+                            //               .colorScheme
+                            //               .secondary,
+                            //           fontSize: 15,
+                            //           decoration: TextDecoration.underline,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

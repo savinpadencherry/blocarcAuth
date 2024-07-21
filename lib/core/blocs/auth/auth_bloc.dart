@@ -6,10 +6,10 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:journey/core/logger.dart';
-import 'package:journey/core/models/user_model.dart';
-import 'package:journey/core/repository/auth_repository.dart';
-import 'package:journey/core/repository/storage_repository.dart';
+import 'package:fhirpat/core/logger.dart';
+import 'package:fhirpat/core/models/user_model.dart';
+import 'package:fhirpat/core/repository/auth_repository.dart';
+import 'package:fhirpat/core/repository/storage_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -84,49 +84,50 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
       }
     });
 
-    on<UploadPictureAndUpdateUserData>((event, emit) async {
-      emit(
-        (DataUploadLoading()),
-      );
-      try {
-        warningLog(event.userId);
-        final imageUrl =
-            await storageRepository.entireUploadMediaFlowAndUpdatingUserDetails(
-                xFile: event.file,
-                userID: event.userId,
-                email: event.email,
-                userNameL: event.username,
-                documentId: event.documentId);
-        warningLog('$imageUrl');
-        emit(
-          AuthSuccess(
-            username: event.username,
-            userId: event.userId,
-            email: event.email,
-            file: imageUrl,
-            onBoardingCompleted: true,
-          ),
-        );
-      } on ErrorUploadingImageAndPatchingData catch (e) {
-        errorLog(e.message);
-        emit(
-          ErrorUploadingImageAndPatchingData(
-            message: e.toString(),
-          ),
-        );
-      }
-    });
+    // on<UploadPictureAndUpdateUserData>((event, emit) async {
+    //   emit(
+    //     (DataUploadLoading()),
+    //   );
+    //   try {
+    //     warningLog(event.userId);
+    //     final imageUrl =
+    //         await storageRepository.entireUploadMediaFlowAndUpdatingUserDetails(
+    //             xFile: event.file,
+    //             userID: event.userId,
+    //             email: event.email,
+    //             userNameL: event.username,
+    //             documentId: event.documentId);
+    //     warningLog('$imageUrl');
+    //     emit(
+    //       AuthSuccess(
+    //         username: event.username,
+    //         userId: event.userId,
+    //         email: event.email,
+    //         file: imageUrl,
+    //         onBoardingCompleted: true,
+    //       ),
+    //     );
+    //   } on ErrorUploadingImageAndPatchingData catch (e) {
+    //     errorLog(e.message);
+    //     emit(
+    //       ErrorUploadingImageAndPatchingData(
+    //         message: e.toString(),
+    //       ),
+    //     );
+    //   }
+    // });
 
     on<LogInEvent>((event, emit) async {
       emit(AuthLoading());
       try {
-        final String? userId = await authRepository.logInWithUserCredential(
+        final UserModel user = await authRepository.logInWithUserCredential(
             email: event.email, password: event.password);
         emit(
           AuthSuccess(
-            email: event.email,
-            userId: userId!,
-          ),
+              email: event.email,
+              userId: user.userId,
+              documentID: user.documentId,
+              isNewUser: user.showOnBoarding),
         );
       }
       //  on LogInFailure catch (e) {
@@ -152,6 +153,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
             await authRepository.sendCodeToPhone(event.phoneNumber);
         debugLog(
             'Id ${authRepository.verificationId} and repo $verificationId');
+        if (verificationId == null) {
+          emit(
+            CodeSentToPhone(
+                verificationId: verificationId,
+                statename: 'Some Issue recieving Code'),
+          );
+        }
         emit(
           CodeSentToPhone(
             verificationId: verificationId,
@@ -162,6 +170,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
         emit(
           ErrorSendingCode(
               message: e.toString(), phoneNumber: event.phoneNumber),
+        );
+      } catch (e) {
+        emit(
+          ErrorSendingCode(message: e.toString(), phoneNumber: 'Non existent'),
         );
       }
     });
@@ -175,14 +187,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
             authRepository.phoneAuthCredentialFunction(
                 verificationIdToken: event.verficationId, otp: event.code);
         debugLog('$phoneAuthCredential');
-        final UserCredential userCredential = await authRepository
+        final UserModel userCredential = await authRepository
             .signInwithphoneCredentials(phoneAuthCredential);
         debugLog(
-            'Does the user exist ?${userCredential.additionalUserInfo?.isNewUser}');
+            'Does the user exist ?${userCredential.showOnBoarding} and overall UserModel $userCredential');
         emit(
           AuthSuccess(
-            isNewUser: userCredential.additionalUserInfo!.isNewUser,
-            userCredential: userCredential,
+            isNewUser: userCredential.showOnBoarding,
+            userId: userCredential.userId,
+            email: userCredential.phoneNumber,
+            documentID: userCredential.documentId,
           ),
         );
       } on PhoneAuthFailure catch (e) {
@@ -235,16 +249,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
       emit(SignInLoading());
       try {
         debugLog('${event.phoneAuthCredential}');
-        final UserCredential userCredential = await authRepository
+        final UserModel userCredential = await authRepository
             .signInwithphoneCredentials(event.phoneAuthCredential);
-        debugLog(
-            'Does the user exist ?${userCredential.additionalUserInfo?.isNewUser}');
+        debugLog('Does the user exist ?${userCredential.showOnBoarding}');
         emit(
           AuthSuccess(
-            isNewUser: userCredential.additionalUserInfo!.isNewUser,
-            userId: userCredential.user?.uid,
-            username: userCredential.user?.displayName,
-          ),
+              isNewUser: userCredential.showOnBoarding,
+              userId: userCredential.userId,
+              email: userCredential.phoneNumber,
+              documentID: userCredential.documentId),
         );
       } on PhoneAuthFailure catch (e) {
         emit(
@@ -307,6 +320,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with LogMixin, HydratedMixin {
           ResetPasswordErrorState(
             message: e.toString(),
           ),
+        );
+      }
+    });
+
+    on<ResetStateEvent>((event, emit) {
+      emit(
+        ResetState(),
+      );
+    });
+
+    on<GoogleSignInEvent>((event, emit) async {
+      warningLog('Google sign in');
+      emit(GoogleSignInLoadingState());
+      try {
+        final UserModel? googleSignInAccount =
+            await authRepository.completeGoogleSignInAndDbEntry();
+        emit(
+          AuthSuccess(
+            username: googleSignInAccount?.username,
+            userId: googleSignInAccount?.userId,
+            documentID: googleSignInAccount?.documentId,
+            isNewUser: googleSignInAccount?.showOnBoarding,
+          ),
+        );
+      } on GoogleSignInErrorState catch (e) {
+        emit(
+          GoogleSignInErrorState(message: e.message),
         );
       }
     });

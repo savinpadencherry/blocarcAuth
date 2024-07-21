@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:journey/core/get.dart';
-import 'package:journey/core/services/navigator_service.dart';
+import 'package:fhirpat/core/get.dart';
+import 'package:fhirpat/core/services/navigator_service.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String? message;
@@ -21,7 +21,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       title: const Center(
         child: Text(
-          'Authentication Message',
+          'Error Message',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

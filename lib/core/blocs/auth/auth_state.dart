@@ -523,7 +523,7 @@ class SignUpFailure extends AuthState {
   List<Object> get props => [message];
 }
 
-class GetDataLoadingState extends AuthState{}
+class GetDataLoadingState extends AuthState {}
 
 class UserDataFetched extends AuthState {
   final UserModel userData;
@@ -600,3 +600,5 @@ class ErrorSendingCode extends AuthState {
 }
 
 class CodeNotSentDueToViolation extends AuthState {}
+
+class ResetState extends AuthState {}

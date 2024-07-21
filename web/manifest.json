@@ -1,6 +1,6 @@
 {
-    "name": "journey",
-    "short_name": "journey",
+    "name": "fhirpat",
+    "short_name": "fhirpat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

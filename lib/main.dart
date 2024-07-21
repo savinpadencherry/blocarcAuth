@@ -1,17 +1,18 @@
+import 'package:fhirpat/core/blocs/fhirpat/fhirpat_bloc.dart';
+import 'package:fhirpat/core/contants.dart';
+import 'package:fhirpat/core/repository/fhirpat_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:journey/core/blocs/auth/auth_bloc.dart';
-import 'package:journey/core/blocs/data/data_bloc.dart';
-import 'package:journey/core/repository/auth_repository.dart';
-import 'package:journey/core/repository/storage_repository.dart';
-import 'package:journey/theme/theme.dart';
-import 'package:journey/views/home/home_view.dart';
-import 'package:journey/views/login/login_view.dart';
-import 'package:journey/views/onboarding/onboarding_view.dart';
-import 'package:journey/views/signup/signup_view.dart';
+import 'package:fhirpat/core/blocs/auth/auth_bloc.dart';
+import 'package:fhirpat/core/blocs/data/data_bloc.dart';
+import 'package:fhirpat/core/repository/auth_repository.dart';
+import 'package:fhirpat/core/repository/storage_repository.dart';
+import 'package:fhirpat/theme/theme.dart';
+import 'package:fhirpat/views/login/login_view.dart';
+import 'package:fhirpat/views/signup/signup_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/get.dart';
 import 'core/services/navigator_service.dart';
@@ -48,7 +49,10 @@ class MainApplication extends StatelessWidget {
         ),
         RepositoryProvider<StorageRepository>(
           create: (context) => StorageRepository(),
-        )
+        ),
+        RepositoryProvider<FhirRepository>(
+          create: (context) => FhirRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -61,7 +65,12 @@ class MainApplication extends StatelessWidget {
             create: (context) => DataBloc(
               storageRepository: context.read<StorageRepository>(),
             ),
-          )
+          ),
+          BlocProvider<FhirpatBloc>(
+            create: (context) => FhirpatBloc(
+              fhirRepository: context.read<FhirRepository>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -70,20 +79,16 @@ class MainApplication extends StatelessWidget {
             fontFamily: GoogleFonts.bubblegumSans(
                     foreground: Paint()..shader = linearGradient)
                 .fontFamily,
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xffDD5E89),
-              secondary: Color(0xffF7BB97),
+            colorScheme: ColorScheme.light(
+              primary: ConstantVars.maintheme,
+              secondary: ConstantVars.cardColorTheme,
             ),
           ),
-          home: const OnboardingView(
-            email: 'Something@gmail.com',
-            userId: 'sdfdifhdifjhdjf',
-            documentId: 'asdiffihdfj',
-          ),
+          home: const LoginView(),
           routes: {
             '/SignUp': (context) => const SignupView(),
             '/SignIn': (context) => const LoginView(),
-            '/Home': (context) => const HomeView(),
+            // '/Home': (context) => const HomeView(),
           },
         ),
       ),

@@ -137,3 +137,11 @@ class ResetPasswordEvent extends AuthEvent {
         password,
       ];
 }
+
+class GoogleSignInEvent extends AuthEvent {
+  const GoogleSignInEvent();
+  @override
+  List<Object> get props => [];
+}
+
+class ResetStateEvent extends AuthEvent {}

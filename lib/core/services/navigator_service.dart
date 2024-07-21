@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journey/core/logger.dart';
+import 'package:fhirpat/core/logger.dart';
 
 class NavigatorService with LogMixin {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

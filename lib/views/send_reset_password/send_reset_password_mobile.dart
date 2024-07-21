@@ -23,8 +23,8 @@ class _SendResetPasswordMobileState extends State<_SendResetPasswordMobile> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.alphaBlend(const Color(0xffD99EC9), Colors.orange),
-              Color.alphaBlend(Colors.pink, Colors.orange),
+              ConstantVars.maintheme,
+              ConstantVars.secondaryTheme,
             ],
           ),
         ),
@@ -36,7 +36,7 @@ class _SendResetPasswordMobileState extends State<_SendResetPasswordMobile> {
             AnimatedTextKit(
               animatedTexts: [
                 WavyAnimatedText(
-                  'Journey',
+                  'fhirpat',
                   speed: const Duration(milliseconds: 350),
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
