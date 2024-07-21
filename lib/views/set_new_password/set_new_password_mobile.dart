@@ -137,10 +137,14 @@ class _SetNewPasswordMobileState extends State<_SetNewPasswordMobile>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
+<<<<<<< HEAD
               colors: [
                 ConstantVars.maintheme,
                 ConstantVars.secondaryTheme,
               ],
+=======
+              colors: [ConstantVars.maintheme, ConstantVars.maintheme],
+>>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
             ),
           ),
           child: Column(
@@ -169,7 +173,7 @@ class _SetNewPasswordMobileState extends State<_SetNewPasswordMobile>
                 height: 300,
                 width: 300,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: ConstantVars.cardColorTheme,
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Form(
@@ -198,10 +202,13 @@ class _SetNewPasswordMobileState extends State<_SetNewPasswordMobile>
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 filled: true,
+                                fillColor: Colors.white,
                                 labelText: 'New Password',
-                                prefixIcon: const Icon(
+                                labelStyle:
+                                    TextStyle(color: ConstantVars.maintheme),
+                                prefixIcon: Icon(
                                   Icons.password,
-                                  color: Colors.black,
+                                  color: ConstantVars.maintheme,
                                 ),
                               ),
                             ),

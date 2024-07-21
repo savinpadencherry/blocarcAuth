@@ -234,6 +234,7 @@ class _CustomContainerIconState extends State<CustomContainerIcon> {
     );
   }
 }
+<<<<<<< HEAD
 
 class CustomContainer3 extends StatefulWidget {
   final String title;
@@ -309,3 +310,5 @@ class _CustomContainer3State extends State<CustomContainer3> {
     );
   }
 }
+=======
+>>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6

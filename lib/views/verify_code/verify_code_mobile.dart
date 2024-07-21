@@ -165,6 +165,8 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
   }
 
   void _showVerifyPhoneCodeSuccess({String? message, AuthSuccess? state}) {
+    warningLog(
+        'new user ${state!.isNewUser},onboarding ${state.showOnBoarding} ,email ${state.email} , userId ${state.userId}, document id ${RepositoryProvider.of<AuthRepository>(context).documentId} ');
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -189,12 +191,23 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
               ),
               InkWell(
                 onTap: () {
+<<<<<<< HEAD
                   state!.isNewUser!
                       ? app<NavigatorService>().buildAndPush(
                           HomeView(
                             userId: state.userId,
                             documentId: state.documentID,
                             userOrPhone: state.email,
+=======
+                  state.showOnBoarding!
+                      ? app<NavigatorService>().buildAndPush(
+                          OnboardingView(
+                            email: '${state.email}',
+                            userId: state.userId!,
+                            documentId:
+                                RepositoryProvider.of<AuthRepository>(context)
+                                    .documentId,
+>>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
                           ),
                           // OnboardingView(
                           //   email: '${state.userCredential!.user!.email}',
@@ -376,9 +389,12 @@ class _VerifyCodeMobileState extends State<_VerifyCodeMobile>
                                         filled: true,
                                         fillColor: Colors.white,
                                         labelText: 'Code',
-                                        prefixIcon: const Icon(
+                                        labelStyle: TextStyle(
+                                          color: ConstantVars.maintheme,
+                                        ),
+                                        prefixIcon: Icon(
                                           Icons.email,
-                                          color: Colors.black,
+                                          color: ConstantVars.maintheme,
                                         ),
                                       ),
                                       // validator: (String? value) {

@@ -24,6 +24,7 @@ class AuthRepository with LogMixin {
   String? _email;
   String? _verificationId;
   String? _verificationFailedMessage;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   int? _resendingtoken;
   String? _errorMessage;
   String? _codephone;
@@ -145,6 +146,18 @@ class AuthRepository with LogMixin {
     }
   }
 
+  Future<GoogleSignInAccount?> handleGoogleSignIn() async {
+    final GoogleSignInAccount? account;
+    try {
+      account = await _googleSignIn.signIn();
+    } catch (e) {
+      throw GoogleSignInErrorState(
+        message: e.toString(),
+      );
+    }
+    return account;
+  }
+
   Future<String> createUserDetailsInDb({
     required String token,
     required String userId,
@@ -162,6 +175,7 @@ class AuthRepository with LogMixin {
           'userId': userId,
           'token': token,
           'refreshToken': refreshToken,
+          'documentId': documentId,
           'uniqueUserId': const Uuid().v4(),
           'silentLogin': true,
           'phoneNumber': phoneNumber,
@@ -472,15 +486,16 @@ class AuthRepository with LogMixin {
         password: userCredential.additionalUserInfo!.providerId,
       );
       UserModel user = UserModel(
-          email: userCredential.user?.email,
-          userId: userCredential.user?.uid,
-          documentId: documentId,
-          username: userCredential.user?.displayName,
-          token: userCredential.user?.refreshToken,
-          refreshToken: userCredential.user?.refreshToken,
-          phoneNumber: userCredential.user?.phoneNumber,
-          photoUrl: userCredential.user?.photoURL,
-          showOnBoarding: userCredential.additionalUserInfo?.isNewUser);
+        email: userCredential.user?.email,
+        userId: userCredential.user?.uid,
+        documentId: documentId,
+        username: userCredential.user?.displayName,
+        token: userCredential.user?.refreshToken,
+        refreshToken: userCredential.user?.refreshToken,
+        phoneNumber: userCredential.user?.phoneNumber,
+        photoUrl: userCredential.user?.photoURL,
+        showOnBoarding: userCredential.additionalUserInfo?.isNewUser,
+      );
       return user;
     } else {
       UserModel user = UserModel(

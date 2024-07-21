@@ -88,9 +88,11 @@ class StorageRepository with LogMixin {
       String? userNameL,
       String? email,
       required String documentId}) async {
+    warningLog(
+        'checking file ${xFile?.name} , path to the file ${xFile?.path}');
     if (xFile == null) {
       try {
-        warningLog('$userNameL');
+        warningLog('if the file is not there $userNameL');
         await app<AuthRepository>().patchUserNameAndPhotoUrl(
             userName: userNameL,
             photoUrl: '',

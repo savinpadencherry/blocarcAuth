@@ -3,9 +3,16 @@ library verfiy_forgot_code_view;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:fhirpat/core/get.dart';
 import 'package:fhirpat/views/set_new_password/set_new_password_view.dart';
 import 'package:fhirpat/widgets/dialogbox.dart';
+=======
+import 'package:journey/core/get.dart';
+import 'package:journey/global/constants.dart';
+import 'package:journey/views/set_new_password/set_new_password_view.dart';
+import 'package:journey/widgets/dialogbox.dart';
+>>>>>>> e3e7d0c47203d58fefca22d2afa40087d4179bf6
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'package:fhirpat/theme/theme.dart';

@@ -436,6 +436,13 @@ class _SignupMobileState extends State<_SignupMobile>
                   SizedBox(
                     height: 20,
                   ),
+                  Text(
+                    '------------------- Or --------------------',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

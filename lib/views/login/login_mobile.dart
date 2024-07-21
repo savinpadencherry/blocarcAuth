@@ -425,7 +425,14 @@ class _LoginMobileState extends State<_LoginMobile>
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
+                  ),
+                  Text(
+                    '------------------- Or Login via --------------------',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   Text(
                     '--------------- Or Login via ---------------',
